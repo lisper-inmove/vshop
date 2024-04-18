@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+enum OrderStatus {
+    CREATED = 0;
+    SUCCESS = 1;
+}
+
+message Order {
+    string id =1;
+    OrderStatus status = 2;
+    int64 createdAt = 3;
+    int64 updatedAt = 4;
+    string userId = 5;
+    string commodityId = 6;
+}

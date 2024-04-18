@@ -1,0 +1,99 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+// 用户
+model User {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  uid             String   @unique
+  name            String
+  email           String   @unique
+  phone           String   @unique
+  password        String
+  isEmailVerified Boolean
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @default(now())
+  token           String
+  refreshToken    String
+  verifyToken     String
+}
+
+enum CommodityStatus {
+  // 创建
+  CREATED
+  // 售罄
+  SOLD_OUT
+  // 售卖中
+  SELLING
+  // 下架
+  OUT_OF_STOCK
+}
+
+// 商品
+model Commodity {
+  id          String          @id @default(auto()) @map("_id") @db.ObjectId
+  uid         String          @unique
+  name        String
+  description String
+  essay       String
+  price       Int
+  status      CommodityStatus @default(CREATED)
+  // 该商品有哪些图片
+  imageUrls   String[]
+  cover       String
+  labels      String
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @default(now())
+  link        String?
+}
+
+enum TransitionStatus {
+  CREATED
+  SUCCESS
+  FAILED
+  CANCELLED
+}
+
+// 流水表
+model Transition {
+  id        String           @id @default(auto()) @map("_id") @db.ObjectId
+  uid       String           @unique
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @default(now())
+  status    TransitionStatus
+  billFee   Int
+  paidFee   Int
+  orderId   String
+}
+
+enum OrderStatus {
+  CREATED
+  SUCCESS
+  FAILED
+  CANCELLED
+}
+
+// 订单表
+model Order {
+  id     String      @id @default(auto()) @map("_id") @db.ObjectId
+  uid    String      @unique
+  status OrderStatus
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now())
+  userId       String
+  commodityId  String
+  payFee       Int?     @default(0)
+  downloadLink String?
+}

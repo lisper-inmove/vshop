@@ -1,0 +1,8 @@
+# 查找当前目录及所有子目录下的所有.proto文件
+find . -name "*.proto" | while read protofile; do
+  # 从文件路径中提取文件名（无扩展名）
+  filename="${protofile%.*}"
+
+  # 对每个找到的文件执行命令
+  npx pbjs --ts "${filename}.ts" "$protofile"
+done

@@ -1,0 +1,19 @@
+h1 {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 2em;
+}
+
+h2 {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.5em;
+}
+
+/*
+h1~p {
+  text-indent: 1em;
+}
+
+h2~p {
+  text-indent: 1.5em;
+}
+*/
